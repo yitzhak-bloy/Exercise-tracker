@@ -1,11 +1,12 @@
-const express = require('express')
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
 const app = express()
-const bodyParser = require('body-parser')
 
 const cors = require('cors')
 
-const mongoose = require('mongoose')
-mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost/exercise-track' )
+// mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost/exercise-track' )
 
 app.use(cors())
 
@@ -43,6 +44,14 @@ app.use((err, req, res, next) => {
     .send(errMessage)
 })
 
-const listener = app.listen(process.env.PORT || 3000, () => {
-  console.log('Your app is listening on port ' + listener.address().port)
-})
+
+mongoose
+  .connect(
+    `mongodb+srv://yitzhak:nkfh1993@cluster0.hmmh5.mongodb.net/Exercise_tracker?retryWrites=true&w=majority`
+  )
+  .then(() => {
+    const listener = app.listen(process.env.PORT || 3000, () => {
+      console.log('Your app is listening on port ' + listener.address().port)
+    })
+  })
+  .catch(err => console.log('לא עובד', err));
