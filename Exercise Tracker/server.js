@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+const usersRoutes = require('./routes/users-routes');
+
 const app = express()
 
 const cors = require('cors')
@@ -45,9 +47,12 @@ app.use((err, req, res, next) => {
 })
 
 
+app.use('/api/exercise', usersRoutes);
+
+
 mongoose
   .connect(
-    `mongodb+srv://yitzhak:nkfh1993@cluster0.hmmh5.mongodb.net/Exercise_tracker?retryWrites=true&w=majority`
+    `mongodb+srv://yitzhak:nkfh1993@cluster0.hmmh5.mongodb.net/ExerciseTracker?retryWrites=true&w=majority`
   )
   .then(() => {
     const listener = app.listen(process.env.PORT || 3000, () => {
