@@ -21,6 +21,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
+app.use('/api/exercise', usersRoutes);
 
 // Not found middleware
 app.use((req, res, next) => {
@@ -46,17 +47,13 @@ app.use((err, req, res, next) => {
     .send(errMessage)
 })
 
-
-app.use('/api/exercise', usersRoutes);
-
-
 mongoose
   .connect(
-    `mongodb+srv://yitzhak:nkfh1993@cluster0.hmmh5.mongodb.net/ExerciseTracker?retryWrites=true&w=majority`
+    'mongodb+srv://yitzhak:nkfh1993@cluster0.hmmh5.mongodb.net/ExerciseTracker?retryWrites=true&w=majority'
   )
   .then(() => {
     const listener = app.listen(process.env.PORT || 3000, () => {
       console.log('Your app is listening on port ' + listener.address().port)
     })
   })
-  .catch(err => console.log('לא עובד', err));
+  .catch(err => console.log('Connected failed', err));
