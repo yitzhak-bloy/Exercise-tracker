@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post('/new-user', userControllers.createUsers);
 
-// router.get("/:urlId", mongoose.getUrl);
+router.get("/users", userControllers.getUsers);
 
 module.exports = router;

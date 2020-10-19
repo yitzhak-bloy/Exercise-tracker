@@ -16,4 +16,19 @@ const createUsers = async (req, res, next) => {
 };
 
 
+const getUsers = async (req, res, next) => {
+
+  let users
+  try {
+    users = await User.find();
+  }  catch (err) { 
+    return next(err);
+  }
+  
+
+  res.json(users)
+};
+
+
 exports.createUsers = createUsers;
+exports.getUsers = getUsers;
