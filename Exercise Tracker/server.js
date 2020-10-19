@@ -8,8 +8,6 @@ const app = express()
 
 const cors = require('cors')
 
-// mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost/exercise-track' )
-
 app.use(cors())
 
 app.use(bodyParser.urlencoded({extended: false}))
