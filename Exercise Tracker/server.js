@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const usersRoutes = require('./routes/users-routes');
+const routes = require('./routes/routes');
 
 const app = express()
 
@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
-app.use('/api/exercise', usersRoutes);
+app.use('/api/exercise', routes);
 
 // Not found middleware
 app.use((req, res, next) => {
