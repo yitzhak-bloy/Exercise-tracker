@@ -2,9 +2,11 @@ const Exercise = require('../models/exercise');
 const User = require('../models/user');
 
 const createExercise = async (req, res, next) => {
-  const {userId, description, duration} = req.body;
+  let {userId, description, duration, date} = req.body;
 
-  const date = new Date();
+  if (!date) {
+    date = new Date();
+  }
 
   let existingUser;
   try {
@@ -23,7 +25,8 @@ const createExercise = async (req, res, next) => {
     userId: userId,
     username,
     duration,
-    description
+    description,
+    date
   });
 
   try {
@@ -32,7 +35,7 @@ const createExercise = async (req, res, next) => {
     return next(err);
   }
 
-  res.json({_id: userId, username, date, duration, description,});
+  res.json({_id: userId, username, date: createdExercise.date , duration, description,});
 };
 
 exports.createExercise = createExercise;
