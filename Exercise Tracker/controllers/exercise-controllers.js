@@ -2,13 +2,13 @@ const Exercise = require('../models/exercise');
 const User = require('../models/user');
 
 const createExercise = async (req, res, next) => {
-  const {_id, duration, description} = req.body;
+  const {userId, description, duration} = req.body;
 
   const date = new Date();
 
   let existingUser;
   try {
-    existingUser = await User.findById(_id);
+    existingUser = await User.findById(userId);
   } catch (err) {
     return next(err);
   }
@@ -20,9 +20,8 @@ const createExercise = async (req, res, next) => {
   const username = existingUser.user;
 
   const createdExercise = new Exercise({
-    _id,
+    userId: userId,
     username,
-    date,
     duration,
     description
   });
@@ -33,7 +32,7 @@ const createExercise = async (req, res, next) => {
     return next(err);
   }
 
-  res.json({_id, username, date, duration, description,});
+  res.json({_id: userId, username, date, duration, description,});
 };
 
 exports.createExercise = createExercise;
