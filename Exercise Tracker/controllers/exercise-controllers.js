@@ -38,4 +38,20 @@ const createExercise = async (req, res, next) => {
   res.json({_id: userId, username, date: createdExercise.date , duration, description,});
 };
 
+const getExercise = async (req, res, next) => {
+  const userId = req.params.userId;
+  console.log("getExercise -> userId", userId)
+
+  let users
+  try {
+    users = await User.find({ userId: userId });
+    console.log("getExercise -> users", users)
+  }  catch (err) { 
+    return next(err);
+  }
+
+  res.json(users)
+};
+
 exports.createExercise = createExercise;
+exports.getExercise = getExercise;

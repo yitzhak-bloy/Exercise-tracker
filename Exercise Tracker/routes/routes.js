@@ -11,4 +11,7 @@ router.get("/users", userControllers.getUsers);
 
 router.post('/add', exerciseControllers.createExercise);
 
+router.get('/log/:userId', exerciseControllers.getExercise);
+
+
 module.exports = router;
