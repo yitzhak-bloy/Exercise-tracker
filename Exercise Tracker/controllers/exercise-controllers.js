@@ -42,15 +42,15 @@ const getExercise = async (req, res, next) => {
   const userId = req.params.userId;
   console.log("getExercise -> userId", userId)
 
-  let users
+  let exercise
   try {
-    users = await User.find({ userId: userId });
-    console.log("getExercise -> users", users)
+    exercise = await Exercise.find({ userId: userId });
+    console.log("getExercise -> users", exercise)
   }  catch (err) { 
     return next(err);
   }
 
-  res.json(users)
+  res.json(exercise)
 };
 
 exports.createExercise = createExercise;
