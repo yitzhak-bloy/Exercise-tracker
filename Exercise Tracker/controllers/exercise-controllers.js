@@ -16,7 +16,7 @@ const createExercise = async (req, res, next) => {
   }
 
   if (!existingUser) {
-    return next('user do not exist');
+    return next('User do not exist');
   }
 
   const username = existingUser.user;
@@ -39,18 +39,33 @@ const createExercise = async (req, res, next) => {
 };
 
 const getExercise = async (req, res, next) => {
-  const userId = req.params.userId;
-  console.log("getExercise -> userId", userId)
+  const userId = req.query.userId;
+  console.log("getExercise -> req.query", req.query)
 
   let exercise
   try {
     exercise = await Exercise.find({ userId: userId });
-    console.log("getExercise -> users", exercise)
   }  catch (err) { 
     return next(err);
   }
 
-  res.json(exercise)
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    return next(err);
+  }
+
+  if (!user) {
+    return next('User does not exist');
+  }
+
+  res.json({
+    _id: userId,  
+    username: user.user, 
+    count: exercise.length, 
+    log: exercise
+  })
 };
 
 exports.createExercise = createExercise;

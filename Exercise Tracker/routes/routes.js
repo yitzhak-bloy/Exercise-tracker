@@ -7,11 +7,11 @@ const router = express.Router();
 
 router.post('/new-user', userControllers.createUsers);
 
-router.get("/users", userControllers.getUsers);
+router.get('/users', userControllers.getUsers);
 
 router.post('/add', exerciseControllers.createExercise);
 
-router.get('/log/:userId', exerciseControllers.getExercise);
+router.get('/log', exerciseControllers.getExercise);
 
 
 module.exports = router;
