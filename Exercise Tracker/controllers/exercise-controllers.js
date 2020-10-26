@@ -39,12 +39,11 @@ const createExercise = async (req, res, next) => {
 };
 
 const getExercise = async (req, res, next) => {
-  const userId = req.query.userId;
-  console.log("getExercise -> req.query", req.query)
+  const {userId, from, to, limit} = req.query;
 
-  let exercise
+  let exercises
   try {
-    exercise = await Exercise.find({ userId: userId });
+    exercises = await Exercise.find({ userId: userId });
   }  catch (err) { 
     return next(err);
   }
@@ -60,11 +59,29 @@ const getExercise = async (req, res, next) => {
     return next('User does not exist');
   }
 
+  if (from && !to) {
+    exercises = exercises.filter(item => new Date(item.date).getTime() > new Date(from).getTime());
+  } else if (!from && to) {
+    exercises = exercises.filter(item => new Date(item.date).getTime() < new Date(to).getTime());
+  } else if (from && to) {
+    exercises = exercises.filter(item => new Date(item.date).getTime() > new Date(from).getTime() && new Date(item.date).getTime() < new Date(to).getTime());
+  }
+
+  if(limit){
+    exercises = exercises.slice(0, limit);
+  }  
+
   res.json({
     _id: userId,  
     username: user.user, 
-    count: exercise.length, 
-    log: exercise
+    count: exercises.length, 
+    log: exercises.map(exercise => {
+      return {
+        description: exercise.description,
+        duration: exercise.duration,
+        date: exercise.date
+        }
+    })
   })
 };
 
