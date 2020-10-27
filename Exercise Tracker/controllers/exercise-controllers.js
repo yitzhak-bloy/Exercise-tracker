@@ -1,12 +1,15 @@
 const Exercise = require('../models/exercise');
 const User = require('../models/user');
+const { createUsers } = require('./user-controllers');
 
 const createExercise = async (req, res, next) => {
   let {userId, description, duration, date} = req.body;
 
-  if (!date) {
+  if (!date || date === undefined) {
     date = new Date();
   }
+
+  dateStr = new Date(date).toDateString();
 
   let existingUser;
   try {
@@ -19,14 +22,14 @@ const createExercise = async (req, res, next) => {
     return next('User do not exist');
   }
 
-  const username = existingUser.user;
+  const username = existingUser.username;
 
   const createdExercise = new Exercise({
-    userId: userId,
+    userId,
     username,
-    duration,
+    duration: parseInt(duration),
     description,
-    date
+    date: dateStr
   });
 
   try {
@@ -35,7 +38,15 @@ const createExercise = async (req, res, next) => {
     return next(err);
   }
 
-  res.json({_id: userId, username, date: createdExercise.date , duration, description,});
+  console.log(createdExercise);
+  
+  res.json({ 
+    username, 
+    description, 
+    duration, 
+    _id: userId, 
+    date: createdExercise.date 
+  });
 };
 
 const getExercise = async (req, res, next) => {

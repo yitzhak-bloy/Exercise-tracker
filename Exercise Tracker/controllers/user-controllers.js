@@ -2,7 +2,7 @@ const User = require('../models/user');
 
 const createUsers = async (req, res, next) => {
   const createdUser = new User({
-    user: req.body.user
+    username: req.body.username
   });
 
   try {
@@ -11,8 +11,9 @@ const createUsers = async (req, res, next) => {
   } catch(err) {
     return next(err, 'error!');
   }
+  console.log(createdUser)
 
-  res.json({"username": createdUser.user, "short_url": createdUser._id});
+  res.json({"username": createdUser.username, "_id": createdUser._id});
 };
 
 
