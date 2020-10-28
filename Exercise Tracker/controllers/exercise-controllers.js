@@ -1,6 +1,5 @@
 const Exercise = require('../models/exercise');
 const User = require('../models/user');
-const { createUsers } = require('./user-controllers');
 
 const createExercise = async (req, res, next) => {
   let {userId, description, duration, date} = req.body;
@@ -23,11 +22,12 @@ const createExercise = async (req, res, next) => {
   }
 
   const username = existingUser.username;
+  duration = parseInt(duration);
 
   const createdExercise = new Exercise({
     userId,
     username,
-    duration: parseInt(duration),
+    duration,
     description,
     date: dateStr
   });
@@ -37,15 +37,13 @@ const createExercise = async (req, res, next) => {
   } catch(err) {
     return next(err);
   }
-
-  console.log(createdExercise);
   
   res.json({ 
     username, 
     description, 
-    duration, 
+    duration,
     _id: userId, 
-    date: createdExercise.date 
+    date: dateStr
   });
 };
 
